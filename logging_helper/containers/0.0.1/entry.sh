@@ -17,4 +17,4 @@ while [ ! -f /fluentd/etc/fluent-generated.conf ]; do
   sleep 1
 done
 
-exec fluentd -c /fluentd/etc/fluent-generated.conf
+exec "$@" 
