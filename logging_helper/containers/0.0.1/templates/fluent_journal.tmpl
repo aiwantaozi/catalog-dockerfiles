@@ -1,0 +1,26 @@
+<source>
+  type systemd
+  path /run/log/journal
+  pos_file /var/log/logging-containers/fluentd-containers.pos
+  time_format %Y-%m-%dT%H:%M:%S
+  tag container.*
+  format json
+  read_from_head true
+</source>
+
+<source>
+  type tail
+  path /var/log/logging-volumes/*.log
+  pos_file /var/log/logging-volumes/fluentd-volumes.pos
+  tag volume.*
+  format none
+  read_from_head true
+</source>
+
+<match volume.** container.**>
+  @type elasticsearch
+  logstash_prefix {{ getv "/self/stack/environment_name" }}
+  logstash_format true
+  host elasticsearch.rancher.internal
+  port 9200
+</match>

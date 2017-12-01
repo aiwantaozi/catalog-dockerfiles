@@ -1,0 +1,7 @@
+[template]
+src = "fluent_journal.tmpl"
+dest = "/fluentd/etc/fluent_journal_generated.conf"
+keys = [
+  "/self/stack"
+]
+

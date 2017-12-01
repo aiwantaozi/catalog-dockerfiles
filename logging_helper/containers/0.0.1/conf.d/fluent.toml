@@ -1,6 +1,6 @@
 [template]
 src = "fluent.tmpl"
-dest = "/fluentd/etc/fluent.conf"
+dest = "/fluentd/etc/fluent-generated.conf"
 keys = [
   "/self/stack"
 ]
