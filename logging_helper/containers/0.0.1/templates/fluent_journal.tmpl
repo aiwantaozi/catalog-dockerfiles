@@ -17,6 +17,10 @@
   read_from_head true
 </source>
 
+<filter container.**>
+  type docker_metadata
+</filter>
+
 <match volume.** container.**>
   @type elasticsearch
   logstash_prefix {{ getv "/self/stack/environment_name" }}
