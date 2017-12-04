@@ -6,7 +6,18 @@ COPY entry.sh /usr/bin/
 COPY conf.d /etc/confd/conf.d
 COPY templates /etc/confd/templates
 
-RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev curl jq" \
+RUN apt-get update \
+ && apt-get upgrade -y \
+ && apt-get install -y --no-install-recommends \
+            curl \
+            jq \
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /tmp/* /var/tmp/*
+
+ RUN curl -L https://github.com/kelseyhightower/confd/releases/download/v0.11.0/confd-0.11.0-linux-amd64 -o /usr/local/bin/confd \
+ && chmod +x /usr/local/bin/confd
+
+RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
  && apt-get update \
  && apt-get install -y --no-install-recommends $buildDeps \
  && sudo gem install \
@@ -15,8 +26,6 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev curl jq" \
 	fluent-plugin-systemd \
 	systemd-journal \
  && sudo gem sources --clear-all \
- && curl -L https://github.com/kelseyhightower/confd/releases/download/v0.11.0/confd-0.11.0-linux-amd64 -o /usr/local/bin/confd \
- && chmod +x /usr/local/bin/confd \
  && SUDO_FORCE_REMOVE=yes \
     apt-get purge -y --auto-remove \
                   -o APT::AutoRemove::RecommendsImportant=false \
