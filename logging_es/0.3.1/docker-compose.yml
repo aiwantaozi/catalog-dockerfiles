@@ -2,13 +2,13 @@ version: '2'
 services:
   logging-agent:
     privileged: true
-    image: micheliac/logging-es:v0.3.1
+    image: monlog/logging-es:v0.3.1
     pid: host
     {{- if eq .Values.log_driver "journald" }}
     command:
     - fluentd
     - -c
-    - /fluentd/etc/fluent-journald.conf
+    - /fluentd/etc/fluent_journal_generated.conf
     volumes:
     - /run/log/journal:/run/log/journal
     {{- end }}

@@ -21,6 +21,14 @@
   type docker_metadata
 </filter>
 
+<filter volume.** container.**>
+  @type record_transformer
+  <record>
+    tag ${tag}
+    hostname ${hostname}
+  </record>
+</filter>
+
 <match volume.** container.**>
   @type elasticsearch
   logstash_prefix {{ getv "/self/stack/environment_name" }}
