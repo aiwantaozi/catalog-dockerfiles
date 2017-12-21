@@ -22,6 +22,7 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
  && apt-get install -y --no-install-recommends $buildDeps \
  && sudo gem install \
         fluent-plugin-elasticsearch \
+        fluent-plugin-dedot_filter \
         fluent-plugin-docker_metadata_filter \
 	fluent-plugin-systemd \
 	systemd-journal \
