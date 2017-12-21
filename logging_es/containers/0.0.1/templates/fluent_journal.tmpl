@@ -39,6 +39,7 @@
 <match volume.** container.**>
   @type elasticsearch
   logstash_prefix {{ getv "/self/stack/environment_name" }}
+  logstash_dateformat {{getv "/self/service/metadata/elasticsearch_index_format"}}
   logstash_format true
   host elasticsearch
   port 9200

@@ -2,18 +2,16 @@ version: '2'
 services:
   logging-agent:
     privileged: true
-    image: monlog/logging-es:v0.3.1
+    image: monlog/logging-es:v0.3.1.2
     pid: host
     {{- if eq .Values.log_driver "journald" }}
     command:
     - fluentd
     - -c
-    - /fluentd/etc/fluent_journal_generated.conf
+    - /fluentd/etc/fluent-journald.conf
     volumes:
     - /run/log/journal:/run/log/journal
     {{- end }}
-    external_links:
-    - ${elasticsearch_source}:elasticsearch
     volumes_from:
     - logging-helper
     labels:
@@ -27,7 +25,7 @@ services:
         max-file: '2'
   logging-helper:
     privileged: true
-    image: registry.cn-hangzhou.aliyuncs.com/niusmallnan/logging-helper:v0.3.0
+    image: monlog/logging-helper:v0.3.0
     environment:
       LOG_VOL_PATTERN: '${log_vol_pattern}'
       LOG_FILE_PATTERN: '${log_file_pattern}'
@@ -44,3 +42,5 @@ services:
       options:
         max-size: 25m
         max-file: '2'
+  elasticsearch:
+    image: rancher/external-service
